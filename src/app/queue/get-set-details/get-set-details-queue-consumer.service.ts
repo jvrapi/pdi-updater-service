@@ -17,7 +17,6 @@ export class GetSetDetailsQueueConsumerService {
     const set = SetMapper.toCardsService(setDetails);
     const cards = setCards.map((card) => CardMapper.toCardsService(card));
     const message = { ...set, cards };
-
     this.sendMessageService.execute({
       pattern: 'new-sets',
       message,

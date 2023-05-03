@@ -9,7 +9,7 @@ import { BullModule } from '@nestjs/bull';
         password: process.env.REDIS_PASSWORD,
         port: +process.env.REDIS_PORT,
       },
-      prefix: 'updater_service_',
+      prefix: 'updater_service',
     }),
     BullModule.registerQueue({
       name: 'get-set-details-queue',
@@ -22,7 +22,7 @@ import { BullModule } from '@nestjs/bull';
         password: process.env.REDIS_PASSWORD,
         port: +process.env.REDIS_PORT,
       },
-      prefix: 'updater_service_',
+      prefix: 'updater_service',
     }),
     BullModule.registerQueue({
       name: 'get-set-details-queue',

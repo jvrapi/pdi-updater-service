@@ -18,7 +18,7 @@ async function bootstrap() {
     },
   );
 
-  app.useGlobalInterceptors(new NewRelicInterceptor());
+  // app.useGlobalInterceptors(new NewRelicInterceptor());
 
   await app.listen();
 }
