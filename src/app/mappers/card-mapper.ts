@@ -84,7 +84,7 @@ export class CardMapper {
 
     return {
       id: card.id,
-      imageUri: card.image_uris?.png,
+      imageUri: card.getImageURI('png'),
       name: this.instance.chooseBestName(card),
       manaCost: card.mana_cost ?? null,
       borderColor: card.border_color,
