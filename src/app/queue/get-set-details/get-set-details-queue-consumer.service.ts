@@ -1,6 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import { Set, Sets } from 'scryfall-sdk';
+import { Sets } from 'scryfall-sdk';
 import { CardMapper } from '~/app/mappers/card-mapper';
 import { SetMapper } from '~/app/mappers/set-mapper';
 import { SendMessageService } from '~/app/send-message/send-message.service';
