@@ -9,8 +9,9 @@ export class CronService {
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async execute() {
-    this.logger.log(`${new Date().toISOString()} - Cron job has been trigged`);
-    this.logger.log('Send message to get all collections');
+    this.logger.log(
+      'Cron job has been trigged. Send message to get all collections',
+    );
     await this.sendMessage.execute({
       pattern: 'get-all-sets',
       message: '',
