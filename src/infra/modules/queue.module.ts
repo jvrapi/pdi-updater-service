@@ -21,6 +21,7 @@ import { BullModule } from '@nestjs/bull';
         host: process.env.REDIS_HOST,
         password: process.env.REDIS_PASSWORD,
         port: +process.env.REDIS_PORT,
+        tls: {},
       },
       prefix: 'updater_service',
     }),
