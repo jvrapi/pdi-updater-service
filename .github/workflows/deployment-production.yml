@@ -44,5 +44,11 @@ jobs:
           envkey_REDIS_PORT: "${{ secrets.REDIS_PORT }}"
           envkey_REDIS_HOST: "${{ secrets.REDIS_HOST }}"
           envkey_REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
+          envkey_NEW_RELIC_APP_NAME: "${{ secrets.NEW_RELIC_APP_NAME }}"
+          envkey_NEW_RELIC_LABELS: "${{ secrets.NEW_RELIC_LABELS }}"
+          envkey_NEW_RELIC_LICENSE_KEY: "${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+          envkey_NEW_RELIC_LOG: "${{ secrets.NEW_RELIC_LOG }}"
+          envkey_NEW_RELIC_LOG_LEVEL: "${{ secrets.NEW_RELIC_LOG_LEVEL }}"
+          envkey_NEW_RELIC_NO_CONFIG_FILE: "${{ secrets.NEW_RELIC_NO_CONFIG_FILE }}"
       - name: Update server
         run: pm2 restart server

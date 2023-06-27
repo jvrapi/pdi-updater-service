@@ -7,7 +7,7 @@ export class CronService {
   private readonly logger = new Logger(CronService.name);
   constructor(private sendMessage: SendMessageService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async execute() {
     this.logger.log(
       'Cron job has been trigged. Send message to get all collections',
