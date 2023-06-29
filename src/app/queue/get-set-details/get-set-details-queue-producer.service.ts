@@ -9,6 +9,9 @@ export class GetSetDetailsQueueProducerService {
   ) {}
 
   async getSetDetails(setCode: string) {
-    await this.getSetDetailsQueue.add('get-set-details-job', setCode);
+    await this.getSetDetailsQueue.add('get-set-details-job', setCode, {
+      removeOnComplete: true,
+      removeOnFail: true,
+    });
   }
 }
