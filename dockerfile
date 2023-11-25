@@ -8,8 +8,6 @@ RUN yarn install
 
 RUN yarn build
 
-RUN mv .env.production .env
-
 FROM node:lts
 
 WORKDIR /app

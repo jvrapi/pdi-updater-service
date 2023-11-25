@@ -1,16 +1,17 @@
 import { Process, Processor } from '@nestjs/bull';
+import { Injectable } from '@nestjs/common';
 import { Job } from 'bull';
 import { Sets } from 'scryfall-sdk';
 import { CardMapper } from '~/app/mappers/card-mapper';
 import { SetMapper } from '~/app/mappers/set-mapper';
-import { SendMessageService } from '~/app/send-message/send-message.service';
+import { SendMessageService } from './send-message.service';
 
 @Processor('get-set-details-queue')
-export class GetSetDetailsQueueConsumerService {
+export class GetSetDetailsService {
   constructor(private readonly sendMessageService: SendMessageService) {}
 
   @Process('get-set-details-job')
-  async getSetDetails(job: Job<string>) {
+  async execute(job: Job<string>) {
     const { data: setCode } = job;
     const setDetails = await Sets.byCode(setCode);
     const setCards = await setDetails.getCards();
