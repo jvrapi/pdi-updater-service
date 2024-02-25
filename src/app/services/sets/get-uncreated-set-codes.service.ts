@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Sets } from 'scryfall-sdk';
 
 @Injectable()
-export class VerifyHasUpdateService {
-  private readonly logger = new Logger(VerifyHasUpdateService.name);
+export class GetUncreatedSetCodesService {
+  private readonly logger = new Logger(GetUncreatedSetCodesService.name);
   async execute(setsCodes: string[]) {
     this.logger.log('Check for updates');
 

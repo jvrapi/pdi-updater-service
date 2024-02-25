@@ -21,7 +21,7 @@ type VersionName = keyof typeof Versions;
 
 interface Format {
   name: FormatName;
-  isLegal: boolean;
+  status: string;
 }
 
 interface Version {
@@ -66,7 +66,7 @@ interface Card {
   isFoundInBooster: boolean | null;
   isStorySpotlight: boolean | null;
   colors: string[];
-  formats: string[];
+  formats: Format[];
   versions: string[];
   id: string;
   setId: string;
@@ -77,7 +77,7 @@ interface Card {
 export class CardMapper {
   private static instance: CardMapper;
 
-  static toCardsService(card: ScryCard): Card {
+  static format(card: ScryCard): Card {
     if (!this.instance) {
       this.instance = new this();
     }
@@ -165,15 +165,10 @@ export class CardMapper {
     const formats: Format[] = [];
 
     cardFormats.forEach((format) => {
-      const isLegal = legalities[format as FormatName] === 'legal';
-      formats.push({ name: format as FormatName, isLegal });
+      formats.push({ name: format as FormatName, status: legalities[format] });
     });
 
-    const formatsNames = formats
-      .filter((format) => format.isLegal)
-      .map((format) => format.name);
-
-    return formatsNames;
+    return formats;
   }
 
   private parseVersions(

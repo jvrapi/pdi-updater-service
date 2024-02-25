@@ -1,44 +1,23 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.registerAsync([
-      {
-        name: 'CardsService',
-        useFactory: () => {
-          return {
-            transport: Transport.RMQ,
-            options: {
-              urls: [process.env.RABBITMQ_URL],
-              queue: process.env.RABBITMQ_CARDS_QUEUE,
-              queueOptions: {
-                durable: false,
-              },
-            },
-          };
+    RabbitMQModule.forRootAsync(RabbitMQModule, {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: `${configService.get<string>('RABBITMQ_URL')}?heartbeat=45`,
+        enableControllerDiscovery: true,
+        connectionInitOptions: {
+          timeout: 60000,
+          wait: false,
+          consumer_timeout: 5400000,
         },
-      },
-    ]),
+      }),
+    }),
   ],
-  exports: [
-    ClientsModule.registerAsync([
-      {
-        name: 'CardsService',
-        useFactory: () => {
-          return {
-            transport: Transport.RMQ,
-            options: {
-              urls: [process.env.RABBITMQ_URL],
-              queue: process.env.RABBITMQ_CARDS_QUEUE,
-              queueOptions: {
-                durable: false,
-              },
-            },
-          };
-        },
-      },
-    ]),
-  ],
+  exports: [RabbitMQModule],
 })
 export class MessagingModule {}

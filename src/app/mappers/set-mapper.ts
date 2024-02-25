@@ -1,7 +1,7 @@
 import { Set } from 'scryfall-sdk';
 
 export class SetMapper {
-  static toCardsService(set: Set) {
+  static format(set: Set) {
     return {
       id: set.id,
       name: set.name,
