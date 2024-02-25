@@ -7,22 +7,27 @@ export class VerifyHasUpdateService {
   async execute(setsCodes: string[]) {
     this.logger.log('Check for updates');
 
-    const allSets = await Sets.all();
+    try {
+      const allSets = await Sets.all();
 
-    if (allSets.length === setsCodes.length) {
-      return [];
+      if (allSets.length === setsCodes.length) {
+        return [];
+      }
+
+      const allSetsCodes = allSets.map((set) => set.code);
+
+      const setsCodesNotRegistered = allSetsCodes.filter(
+        (code) =>
+          !setsCodes.some(
+            (registeredSetCode) =>
+              code.toLowerCase() === registeredSetCode.toLowerCase(),
+          ),
+      );
+
+      return setsCodesNotRegistered;
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
     }
-
-    const allSetsCodes = allSets.map((set) => set.code);
-
-    const setsCodesNotRegistered = allSetsCodes.filter(
-      (code) =>
-        !setsCodes.some(
-          (registeredSetCode) =>
-            code.toLowerCase() === registeredSetCode.toLowerCase(),
-        ),
-    );
-
-    return setsCodesNotRegistered;
   }
 }

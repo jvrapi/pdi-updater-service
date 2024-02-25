@@ -5841,10 +5841,10 @@ schema-utils@^3.1.1, schema-utils@^3.1.2:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
-scryfall-sdk@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/scryfall-sdk/-/scryfall-sdk-4.1.1.tgz#9a538564bb790216feca795ac617898c7b60a865"
-  integrity sha512-XVCxvO0X8Bav6v4Rj62P58SekHiFc3cHEle79iT5jZw7nhsHK0jPkhaZoG9V0t1GdpyYet4ET131OnsMjpqEeA==
+scryfall-sdk@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/scryfall-sdk/-/scryfall-sdk-4.2.2.tgz#48ff8438fec0c35cab02153b8d5099fd6d067c27"
+  integrity sha512-M9V7YpkX+oXbXz69HdRzxU6jyK9QDnuOouY8zL2z/+DD9g6VJwZ3487ANf4gQOhsL9T4/74jvQWrnv2L6v4Y/A==
 
 semver@7.x, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7, semver@^7.3.8:
   version "7.5.0"

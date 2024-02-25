@@ -1,5 +1,4 @@
 import { Process, Processor } from '@nestjs/bull';
-import { Injectable } from '@nestjs/common';
 import { Job } from 'bull';
 import { Sets } from 'scryfall-sdk';
 import { CardMapper } from '~/app/mappers/card-mapper';

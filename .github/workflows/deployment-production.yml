@@ -1,54 +1,54 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Deploy to production
+# name: Deploy to production
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches: [main]
 
-jobs:
-  deploy-production:
-    if: github.ref == 'refs/heads/main'
-    runs-on: self-hosted
-    concurrency: deploy-to-production
-    environment: production
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18.x
-      - name: Install yarn
-        run: npm install -g yarn
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build image
-        run: yarn build
-      - name: Remove node_modules
-        run: rm -rf node_module
-      - name: Install production dependencies
-        run: yarn --production
-      - name: Clean up
-        if: always()
-        run: npm uninstall -g yarn
-      - name: Create .env file"
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          file_name: .env
-          envkey_NODE_ENV: "PRODUCTION"
-          envkey_RABBITMQ_URL: "${{ secrets.RABBITMQ_URL }}"
-          envkey_RABBITMQ_CARDS_QUEUE: "${{ secrets.RABBITMQ_CARDS_QUEUE }}"
-          envkey_RABBITMQ_UPDATER_QUEUE: "${{ secrets.RABBITMQ_UPDATER_QUEUE }}"
-          envkey_REDIS_PORT: "${{ secrets.REDIS_PORT }}"
-          envkey_REDIS_HOST: "${{ secrets.REDIS_HOST }}"
-          envkey_REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
-          envkey_NEW_RELIC_APP_NAME: "${{ secrets.NEW_RELIC_APP_NAME }}"
-          envkey_NEW_RELIC_LABELS: "${{ secrets.NEW_RELIC_LABELS }}"
-          envkey_NEW_RELIC_LICENSE_KEY: "${{ secrets.NEW_RELIC_LICENSE_KEY }}"
-          envkey_NEW_RELIC_LOG: "${{ secrets.NEW_RELIC_LOG }}"
-          envkey_NEW_RELIC_LOG_LEVEL: "${{ secrets.NEW_RELIC_LOG_LEVEL }}"
-          envkey_NEW_RELIC_NO_CONFIG_FILE: "${{ secrets.NEW_RELIC_NO_CONFIG_FILE }}"
-      - name: Update server
-        run: pm2 restart server
+# jobs:
+#   deploy-production:
+#     if: github.ref == 'refs/heads/main'
+#     runs-on: self-hosted
+#     concurrency: deploy-to-production
+#     environment: production
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Use Node.js 18.x
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 18.x
+#       - name: Install yarn
+#         run: npm install -g yarn
+#       - name: Install dependencies
+#         run: yarn install --frozen-lockfile
+#       - name: Build image
+#         run: yarn build
+#       - name: Remove node_modules
+#         run: rm -rf node_module
+#       - name: Install production dependencies
+#         run: yarn --production
+#       - name: Clean up
+#         if: always()
+#         run: npm uninstall -g yarn
+#       - name: Create .env file"
+#         uses: SpicyPizza/create-envfile@v2.0
+#         with:
+#           file_name: .env
+#           envkey_NODE_ENV: "PRODUCTION"
+#           envkey_RABBITMQ_URL: "${{ secrets.RABBITMQ_URL }}"
+#           envkey_RABBITMQ_CARDS_QUEUE: "${{ secrets.RABBITMQ_CARDS_QUEUE }}"
+#           envkey_RABBITMQ_UPDATER_QUEUE: "${{ secrets.RABBITMQ_UPDATER_QUEUE }}"
+#           envkey_REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+#           envkey_REDIS_HOST: "${{ secrets.REDIS_HOST }}"
+#           envkey_REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
+#           envkey_NEW_RELIC_APP_NAME: "${{ secrets.NEW_RELIC_APP_NAME }}"
+#           envkey_NEW_RELIC_LABELS: "${{ secrets.NEW_RELIC_LABELS }}"
+#           envkey_NEW_RELIC_LICENSE_KEY: "${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+#           envkey_NEW_RELIC_LOG: "${{ secrets.NEW_RELIC_LOG }}"
+#           envkey_NEW_RELIC_LOG_LEVEL: "${{ secrets.NEW_RELIC_LOG_LEVEL }}"
+#           envkey_NEW_RELIC_NO_CONFIG_FILE: "${{ secrets.NEW_RELIC_NO_CONFIG_FILE }}"
+#       - name: Update server
+#         run: pm2 restart server
