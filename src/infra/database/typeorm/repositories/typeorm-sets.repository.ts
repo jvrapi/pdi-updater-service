@@ -27,11 +27,9 @@ export class TypeOrmSetsRepository implements SetsRepository {
   }
 
   async create(set: CreateSetParams): Promise<void> {
-    // Criar os inserts usando query builder
     const newSet = this.setRepository.create(set);
     await this.setRepository.save(newSet, {
       reload: false,
-      chunk: 100,
     });
   }
 }

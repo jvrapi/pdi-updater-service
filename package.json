@@ -43,6 +43,7 @@
     "rxjs": "^7.2.0",
     "scryfall-sdk": "^4.2.2",
     "typeorm": "^0.3.20",
+    "uuidv7": "^1.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

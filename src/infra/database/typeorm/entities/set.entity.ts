@@ -40,6 +40,9 @@ export class Set {
   @Column('varchar', { name: 'icon_uri' })
   iconUri: string;
 
+  @Column({ name: 'external_id' })
+  externalId: string;
+
   @OneToMany(() => Card, (card) => card.set, { cascade: true })
   cards: Card[];
 }

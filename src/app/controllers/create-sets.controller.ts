@@ -1,10 +1,10 @@
 import { Controller, Logger } from '@nestjs/common';
 import { CreateNewSetAndCardsService } from '../services/sets/create-new-set-and-cards.service';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { RabbitMqConfigService } from '~/infra/messaging/rabbit-mq/config/config.service';
 import { Sets } from 'scryfall-sdk';
 import { CardMapper } from '~/app/mappers/card-mapper';
 import { SetMapper } from '~/app/mappers/set-mapper';
+import { RabbitMQConfig } from '~/config';
 
 interface Message {
   setCode: string;
@@ -17,12 +17,15 @@ export class CreateSetsController {
     private readonly createNewSetAndCards: CreateNewSetAndCardsService,
   ) {}
 
-  @RabbitSubscribe(
-    RabbitMqConfigService.createSubscribeConfig({
+  @RabbitSubscribe({
+    ...RabbitMQConfig.createSubscribeConfig({
       queue: 'createSets',
       loggerName: CreateSetsController.name,
     }),
-  )
+    queueOptions: {
+      channel: 'createSets',
+    },
+  })
   async messageHandler(message: Message) {
     const { setCode } = message;
     this.logger.debug(`Start processing set ${setCode}`);
@@ -32,7 +35,9 @@ export class CreateSetsController {
     const setCards = await setDetails.getCards();
     this.logger.debug(`Formatting ${setCode} data to be saved in database`);
     const set = SetMapper.format(setDetails);
+
     const cards = setCards.map((card) => CardMapper.format(card));
+
     const newSet = { ...set, cards };
     this.logger.debug(`Parsing ${setCode} data to responsible service`);
     await this.createNewSetAndCards.execute(newSet);

@@ -11,6 +11,10 @@ export class Face {
     return this.props.id;
   }
 
+  public get externalId() {
+    return this.props.externalId;
+  }
+
   public get imageUri() {
     return this.props.imageUri;
   }

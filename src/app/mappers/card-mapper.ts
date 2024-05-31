@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import {
   Card as ScryCard,
   CardFinish as ScryCardFinish,
@@ -6,6 +5,7 @@ import {
   Format as ScryFormat,
   Legalities,
 } from 'scryfall-sdk';
+import { uuidv7 } from 'uuidv7';
 
 type FormatName = keyof typeof ScryFormat;
 
@@ -32,6 +32,7 @@ interface Version {
 
 interface Face {
   id: string;
+  externalId: string;
   imageUri: string;
   name: string;
   manaCost: string | null;
@@ -69,6 +70,7 @@ interface Card {
   formats: Format[];
   versions: string[];
   id: string;
+  externalId: string;
   setId: string;
   imageUri: string | null;
   faces: Face[];
@@ -83,7 +85,8 @@ export class CardMapper {
     }
 
     return {
-      id: card.id,
+      id: uuidv7(),
+      externalId: card.id,
       imageUri: card.getImageURI('png'),
       name: this.instance.chooseBestName(card),
       manaCost: card.mana_cost ?? null,
@@ -217,7 +220,8 @@ export class CardMapper {
               setId: card.set_id,
               colors: this.parseColors(cardFace.colors),
               faceOfId: card.id,
-              id: randomUUID(),
+              id: uuidv7(),
+              externalId: card.id,
               cmc: cardFace.cmc ?? null,
             });
           }

@@ -4,6 +4,7 @@ import { Color } from './color';
 import { Format } from './format';
 import { Version } from './version';
 import { CardProps } from '~/types/card';
+import { Rarity } from './rarity';
 
 export class Card {
   private readonly props: CardProps;
@@ -16,6 +17,8 @@ export class Card {
 
   private _versions: Version[] = [];
 
+  private _rarities: Rarity[] = [];
+
   private _set: Set;
 
   constructor(props: CardProps) {
@@ -24,6 +27,10 @@ export class Card {
 
   public get id() {
     return this.props.id;
+  }
+
+  public get externalId() {
+    return this.props.externalId;
   }
 
   public get setId() {
@@ -128,5 +135,37 @@ export class Card {
 
   public set set(set: Set) {
     this._set = set;
+  }
+
+  public get colors() {
+    return this._colors;
+  }
+
+  public set colors(colors: Color[]) {
+    this.colors = colors;
+  }
+
+  public get formats() {
+    return this._formats;
+  }
+
+  public set formats(formats: Format[]) {
+    this.formats = formats;
+  }
+
+  public get versions() {
+    return this._versions;
+  }
+
+  public set versions(versions: Version[]) {
+    this.versions = versions;
+  }
+
+  public get rarities() {
+    return this._rarities;
+  }
+
+  public set rarities(rarities: Rarity[]) {
+    this.rarities = rarities;
   }
 }

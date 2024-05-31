@@ -16,6 +16,11 @@ import { EnvService } from '~/app/services/env';
           wait: false,
           consumer_timeout: 5400000,
         },
+        channels: {
+          createSets: {
+            prefetchCount: 2,
+          },
+        },
       }),
     }),
   ],

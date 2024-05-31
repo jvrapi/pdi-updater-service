@@ -81,6 +81,9 @@ export class Card {
   @Column({ name: 'image_uri' })
   imageUri: string;
 
+  @Column({ name: 'external_id' })
+  externalId: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -1,5 +1,6 @@
 export interface NewCardFaceProps {
   id: string;
+  externalId: string;
   imageUri: string;
   name: string;
   manaCost: string | null;
@@ -42,6 +43,7 @@ export interface NewCardProps {
   formats: Format[];
   versions: string[];
   id: string;
+  externalId: string;
   setId: string;
   imageUri: string | null;
   faces: NewCardFaceProps[];

@@ -1,5 +1,6 @@
 export interface CardProps {
   id: string;
+  externalId: string;
   setId: string;
   imageUri: string;
   name: string;
@@ -20,13 +21,14 @@ export interface CardProps {
   isVariant: boolean | null;
   isFoundInBooster: boolean | null;
   isStorySpotlight: boolean | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type FaceProps = Pick<
   CardProps,
   | 'id'
+  | 'externalId'
   | 'imageUri'
   | 'name'
   | 'manaCost'

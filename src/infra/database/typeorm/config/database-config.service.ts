@@ -14,6 +14,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: this.envService.get('DB_PASSWORD'),
       database: this.envService.get('DB_NAME'),
       autoLoadEntities: true,
+      logging: true,
     };
   }
 }

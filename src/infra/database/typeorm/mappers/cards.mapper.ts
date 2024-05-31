@@ -7,6 +7,7 @@ export class CardsMapper {
   static toDomain(raw: RawResponse): Card {
     const card = new Card({
       id: raw.id,
+      externalId: raw.externalId,
       setId: raw.setId,
       name: raw.name,
       cmc: raw.cmc,
