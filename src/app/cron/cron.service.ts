@@ -1,13 +1,13 @@
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { VerifyHasUpdatesService } from '../services/sets/verify-has-updates.service';
+import { RabbitMQConfig } from '~/config';
 
 @Injectable()
 export class CronService {
   private readonly logger = new Logger(CronService.name);
-  constructor(
-    private readonly verifyHasUpdateService: VerifyHasUpdatesService,
-  ) {}
+
+  constructor(private amqpConnection: AmqpConnection) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async execute() {
@@ -15,6 +15,10 @@ export class CronService {
       'Cron job has been trigged. Checking for new sets to be registered',
     );
 
-    await this.verifyHasUpdateService.execute();
+    await this.amqpConnection.publish(
+      RabbitMQConfig.queues.verifyHasUpdates.exchange,
+      RabbitMQConfig.queues.verifyHasUpdates.routingKey,
+      {},
+    );
   }
 }

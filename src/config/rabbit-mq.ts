@@ -2,7 +2,7 @@ import { RabbitHandlerConfig } from '@golevelup/nestjs-rabbitmq';
 import { Logger } from '@nestjs/common';
 import { Channel, ConsumeMessage } from 'amqplib';
 
-type QueueName = 'createSets' | 'deadLetter' | 'updateForced';
+type QueueName = 'createSets' | 'deadLetter' | 'verifyHasUpdates';
 
 interface QueueConfigParams {
   name: string;
@@ -38,10 +38,10 @@ interface CreateSubscribeConfigParams {
   loggerName: string;
 }
 
-export class RabbitMqConfigService {
+export class RabbitMQConfig {
   private static defaultExchange = 'pdi_collections';
 
-  private static queues: QueueConfig = {
+  static queues: QueueConfig = {
     deadLetter: {
       exchange: this.defaultExchange,
       name: 'dead-letter',
@@ -52,10 +52,10 @@ export class RabbitMqConfigService {
       name: 'create-sets',
       routingKey: 'cs',
     },
-    updateForced: {
+    verifyHasUpdates: {
       exchange: this.defaultExchange,
-      name: 'update-forced',
-      routingKey: 'uf',
+      name: 'verify-has-updates',
+      routingKey: 'vhu',
     },
   };
 
