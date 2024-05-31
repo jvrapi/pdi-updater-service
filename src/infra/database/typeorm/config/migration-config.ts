@@ -1,28 +1,17 @@
 import 'dotenv/config';
-import { randomBytes } from 'node:crypto';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { BetterSqlite3ConnectionOptions } from 'typeorm/driver/better-sqlite3/BetterSqlite3ConnectionOptions';
-import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { validateEnv } from '~/config';
 
-const { NODE_ENV, DATABASE_URL } = process.env;
+const env = validateEnv();
 
-const getDatabaseTestName = () => `test_${randomBytes(6).toString('hex')}`;
-
-const sqliteConfig: BetterSqlite3ConnectionOptions = {
-  type: 'better-sqlite3',
-  database: `./test/databases/${getDatabaseTestName()}.sqlite`,
+const getDatabaseUrl = (): string => {
+  const { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USERNAME } = env;
+  return `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 };
-
-const mysqlConfig: MysqlConnectionOptions = {
-  type: 'mysql',
-  url: DATABASE_URL,
-};
-
-const configToUse =
-  NODE_ENV?.toLowerCase() === 'test' ? sqliteConfig : mysqlConfig;
 
 export const dataSourceOptions: DataSourceOptions = {
-  ...configToUse,
+  type: 'mysql',
+  url: getDatabaseUrl(),
   entities: [__dirname + '/../**/*.entity.{ts,js}'],
   migrations: [__dirname + '/../migrations/*.{ts,js}'],
 };

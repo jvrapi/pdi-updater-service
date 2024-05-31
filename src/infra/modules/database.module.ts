@@ -3,7 +3,6 @@ import { CardsRepository } from '~/app/repositories/cards.repository';
 import { SetsRepository } from '~/app/repositories/sets-repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from '../database/typeorm/config/database-config.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Card } from '../database/typeorm/entities/card.entity';
 import { Set } from '../database/typeorm/entities/set.entity';
 import { TypeOrmCardsRepository } from '../database/typeorm/repositories/typeorm-cards.repository';
@@ -25,12 +24,14 @@ import { TypeOrmVersionsRepository } from '../database/typeorm/repositories/type
 import { FormatsRepository } from '~/app/repositories/formats.repository';
 import { TypeOrmFormatsRepository } from '../database/typeorm/repositories/typeorm-formats.repository';
 import { CardColor } from '../database/typeorm/entities/card-color.entity';
+import { EnvModule } from '~/app/modules/env.module';
+import { EnvService } from '~/app/services/env';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
+      inject: [EnvService],
+      imports: [EnvModule],
       useClass: TypeOrmConfigService,
     }),
     TypeOrmModule.forFeature([

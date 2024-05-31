@@ -1,14 +1,15 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EnvModule } from '~/app/modules/env.module';
+import { EnvService } from '~/app/services/env';
 
 @Module({
   imports: [
     RabbitMQModule.forRootAsync(RabbitMQModule, {
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        uri: `${configService.get<string>('RABBITMQ_URL')}?heartbeat=45`,
+      imports: [EnvModule],
+      inject: [EnvService],
+      useFactory: async (envService: EnvService) => ({
+        uri: `${envService.get('RABBITMQ_URL')}/pdi_collections`,
         enableControllerDiscovery: true,
         connectionInitOptions: {
           timeout: 60000,

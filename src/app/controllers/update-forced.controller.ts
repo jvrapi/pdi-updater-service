@@ -5,15 +5,15 @@ import { VerifyHasUpdatesService } from '../services/sets/verify-has-updates.ser
 import * as newrelic from 'newrelic';
 
 @Controller()
-export class MessagingController {
+export class UpdateForcedController {
   constructor(
     private readonly verifyHasUpdatesService: VerifyHasUpdatesService,
   ) {}
 
   @RabbitSubscribe(
     RabbitMqConfigService.createSubscribeConfig({
-      queue: 'default',
-      loggerName: MessagingController.name,
+      queue: 'updateForced',
+      loggerName: UpdateForcedController.name,
     }),
   )
   async forceUpdate() {

@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "migration:run": "npm run typeorm migration:run -- -d ./src/infra/database/typeorm/config/migration-config.ts",
     "migration:generate": "npm run typeorm -- -d ./src/infra/database/typeorm/config/migration-config.ts migration:generate ./src/infra/database/typeorm/migrations/$npm_config_name",
     "migration:create": "npm run typeorm -- migration:create ./src/infra/database/typeorm/migrations/$npm_config_name",
@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^5.1.0",
-    "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -38,13 +37,13 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/schedule": "^2.2.1",
     "@nestjs/typeorm": "^10.0.2",
-    "bull": "^4.11.5",
     "mysql2": "^3.9.1",
     "newrelic": "^11.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "scryfall-sdk": "^4.2.2",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
