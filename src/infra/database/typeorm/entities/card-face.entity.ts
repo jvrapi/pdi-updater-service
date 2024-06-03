@@ -10,7 +10,7 @@ import { Card } from './card.entity';
 @Entity('cards_faces')
 export class CardFace {
   @PrimaryColumn('uuid', { name: 'card_id' })
-  carId: string;
+  cardId: string;
 
   @PrimaryColumn('uuid', { name: 'face_id' })
   faceId: string;

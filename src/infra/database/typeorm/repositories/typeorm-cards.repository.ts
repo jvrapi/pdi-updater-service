@@ -34,4 +34,9 @@ export class TypeOrmCardsRepository implements CardsRepository {
     const cards = data.map(this.cardRepository.create);
     await this.cardRepository.save(cards);
   }
+
+  async create(cards: Card[]): Promise<void> {
+    const newCards = cards.map((card) => this.cardRepository.create(card));
+    await this.cardRepository.insert(newCards);
+  }
 }

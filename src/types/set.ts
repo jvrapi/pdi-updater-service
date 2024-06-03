@@ -1,12 +1,3 @@
-import {
-  CreateCardColorsParams,
-  CreateCardFormatParams,
-  CreateCardParams,
-  CreateCardRarityParams,
-  CreateCardVersionParams,
-} from './card';
-import { CreateCardFaceParams } from './card-face';
-
 export interface SetProps {
   id: string;
   iconUri: string;
@@ -20,14 +11,4 @@ export interface SetProps {
   updatedAt: Date;
 }
 
-export type CreateSetCardsParams = CreateCardParams & {
-  faces?: CreateCardFaceParams[];
-  cardVersions: CreateCardVersionParams[];
-  cardFormats: CreateCardFormatParams[];
-  cardColors: CreateCardColorsParams[];
-  cardRarity: CreateCardRarityParams;
-};
-
-export type CreateSetParams = Omit<SetProps, 'createdAt' | 'updatedAt'> & {
-  cards: CreateSetCardsParams[];
-};
+export type CreateSetParams = Omit<SetProps, 'createdAt' | 'updatedAt'>;

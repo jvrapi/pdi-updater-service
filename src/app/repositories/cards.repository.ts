@@ -1,4 +1,5 @@
 import { Card } from '~/app/entities/card';
+import { CreateCardParams } from '~/types/card';
 
 export interface FindByFiltersProps {
   take?: number;
@@ -10,4 +11,5 @@ export interface FindByFiltersProps {
 
 export abstract class CardsRepository {
   abstract findByFilters(data: FindByFiltersProps): Promise<Card[]>;
+  abstract create(cards: CreateCardParams[]): Promise<void>;
 }

@@ -10,7 +10,6 @@ export interface NewCardFaceProps {
   typeLine: string;
   setId: string;
   colors: string[];
-  faceOfId: string;
   cmc: number | null;
 }
 

@@ -1,20 +1,26 @@
-import { SetsRepository } from '~/app/repositories/sets-repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { Version } from '~/app/entities/version';
-import { ColorsRepository } from '~/app/repositories/colors.repository';
-import { FormatsRepository } from '~/app/repositories/formats.repository';
-import { RaritiesRepository } from '~/app/repositories/rarities.repository';
-import { VersionsRepository } from '~/app/repositories/versions.repository';
+
 import { Color } from '~/app/entities/color';
 import { Format } from '~/app/entities/format';
 import { Rarity } from '~/app/entities/rarity';
-import { CreateSetCardsParams } from '~/types/set';
 import {
+  CreateSetCardsParams,
   CreateCardColorsParams,
   CreateCardVersionParams,
   CreateCardFormatParams,
-} from '~/types/card';
-import { NewSetProps } from '~/types/new-data';
+  NewSetProps,
+} from '~/types';
+
+import {
+  SetsRepository,
+  CardsRepository,
+  ColorsRepository,
+  VersionsRepository,
+  RaritiesRepository,
+  FormatsRepository,
+  TransactionRepository,
+} from '~/app/repositories';
 
 @Injectable()
 export class CreateNewSetAndCardsService {
@@ -27,15 +33,17 @@ export class CreateNewSetAndCardsService {
 
   constructor(
     private readonly setsRepository: SetsRepository,
+    private readonly cardsRepository: CardsRepository,
     private readonly colorsRepository: ColorsRepository,
     private readonly versionsRepository: VersionsRepository,
     private readonly raritiesRepository: RaritiesRepository,
     private readonly formatsRepository: FormatsRepository,
+    private readonly transactionRepository: TransactionRepository,
   ) {}
 
   async execute(data: NewSetProps) {
     try {
-      const setId = `${data.code}-${data.id}`;
+      const setId = `${data.code}: ${data.id}`;
 
       this.logger.debug(`Processing set ${setId}`);
 
@@ -195,17 +203,10 @@ export class CreateNewSetAndCardsService {
               securityStamp: card.securityStamp,
               setId: face.setId,
               typeLine: face.typeLine,
-              cardRarity: {
-                cardId: card.id,
-                rarityId: cardRarity.id,
-              },
-              cardColors,
-              cardVersions,
-              cardFormats,
             });
 
             cardData.faces.push({
-              cardId: face.faceOfId,
+              cardId: card.id,
               faceId: face.id,
             });
           });
@@ -214,12 +215,11 @@ export class CreateNewSetAndCardsService {
         cards.push(cardData);
       });
 
-      this.logger.debug('Creating set');
-
-      await this.setsRepository.create({
-        ...data,
+      await this.transactionRepository.createSetAndCards({
+        set: data,
         cards,
       });
+
       this.logger.debug(`set ${setId} created successfully!`);
     } catch (error) {
       this.logger.error(error);

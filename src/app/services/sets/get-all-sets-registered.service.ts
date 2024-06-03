@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SetsRepository } from '~/app/repositories/sets-repository';
+import { SetsRepository } from '~/app/repositories/sets.repository';
 
 @Injectable()
 export class GetAllSetsRegisteredService {

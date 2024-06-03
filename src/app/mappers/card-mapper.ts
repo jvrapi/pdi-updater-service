@@ -42,7 +42,6 @@ interface Face {
   typeLine: string;
   setId: string;
   colors: string[];
-  faceOfId: string;
   cmc: number | null;
 }
 
@@ -219,7 +218,7 @@ export class CardMapper {
               typeLine: cardFace.type_line,
               setId: card.set_id,
               colors: this.parseColors(cardFace.colors),
-              faceOfId: card.id,
+
               id: uuidv7(),
               externalId: card.id,
               cmc: cardFace.cmc ?? null,

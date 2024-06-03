@@ -1,3 +1,5 @@
+import { CreateCardFaceParams } from './card-face';
+
 export interface CardProps {
   id: string;
   externalId: string;
@@ -64,3 +66,11 @@ export interface CreateCardColorsParams {
   cardId: string;
   colorId: string;
 }
+
+export type CreateSetCardsParams = CreateCardParams & {
+  faces?: CreateCardFaceParams[];
+  cardVersions?: CreateCardVersionParams[];
+  cardFormats?: CreateCardFormatParams[];
+  cardColors?: CreateCardColorsParams[];
+  cardRarity?: CreateCardRarityParams;
+};

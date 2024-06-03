@@ -26,7 +26,8 @@
     "seed:colors": "ts-node -r tsconfig-paths/register ./src/infra/database/typeorm/seeds/colors.seed.ts",
     "seed:formats": "ts-node -r tsconfig-paths/register ./src/infra/database/typeorm/seeds/formats.seed.ts",
     "seed:rarities": "ts-node -r tsconfig-paths/register ./src/infra/database/typeorm/seeds/rarities.seed.ts",
-    "seed:versions": "ts-node -r tsconfig-paths/register ./src/infra/database/typeorm/seeds/versions.seed.ts"
+    "seed:versions": "ts-node -r tsconfig-paths/register ./src/infra/database/typeorm/seeds/versions.seed.ts",
+    "seed": "npm run seed:colors && npm run seed:formats && npm run seed:rarities && npm run seed:versions"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^5.1.0",

@@ -36,7 +36,17 @@ export class CreateSetsController {
     this.logger.debug(`Formatting ${setCode} data to be saved in database`);
     const set = SetMapper.format(setDetails);
 
-    const cards = setCards.map((card) => CardMapper.format(card));
+    const cards = setCards
+      .map((card) => CardMapper.format(card))
+      .map((card) => {
+        card.faces.forEach((face) => {
+          face.setId = set.id;
+        });
+        return {
+          ...card,
+          setId: set.id,
+        };
+      });
 
     const newSet = { ...set, cards };
     this.logger.debug(`Parsing ${setCode} data to responsible service`);

@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Set } from '~/app/entities/set';
-import { SetsRepository } from '~/app/repositories/sets-repository';
+import { SetsRepository } from '~/app/repositories';
 
 import { Repository } from 'typeorm';
 import { Set as SetEntity } from '../entities/set.entity';
@@ -28,8 +28,6 @@ export class TypeOrmSetsRepository implements SetsRepository {
 
   async create(set: CreateSetParams): Promise<void> {
     const newSet = this.setRepository.create(set);
-    await this.setRepository.save(newSet, {
-      reload: false,
-    });
+    await this.setRepository.insert(newSet);
   }
 }

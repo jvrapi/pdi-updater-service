@@ -30,6 +30,6 @@ import {
     CreateNewSetAndCardsService,
     CreateSetJob,
   ],
-  controllers: [VerifyHasUpdatesController, CreateSetsController],
+  controllers: [CreateSetsController, VerifyHasUpdatesController],
 })
 export class AppModule {}
