@@ -5,6 +5,7 @@ import { Sets } from 'scryfall-sdk';
 import { CardMapper } from '~/app/mappers/card-mapper';
 import { SetMapper } from '~/app/mappers/set-mapper';
 import { RabbitMQConfig } from '~/config';
+import { CreateSetDataService } from '../services/set-data';
 
 interface Message {
   setCode: string;
@@ -13,9 +14,7 @@ interface Message {
 @Controller()
 export class CreateSetsController {
   private logger = new Logger(CreateSetsController.name);
-  constructor(
-    private readonly createNewSetAndCards: CreateNewSetAndCardsService,
-  ) {}
+  constructor(private readonly createSetDataService: CreateSetDataService) {}
 
   @RabbitSubscribe({
     ...RabbitMQConfig.createSubscribeConfig({
@@ -27,29 +26,32 @@ export class CreateSetsController {
     },
   })
   async messageHandler(message: Message) {
-    const { setCode } = message;
-    this.logger.debug(`Start processing set ${setCode}`);
-    this.logger.debug(`Getting ${setCode} details from Scryfall API`);
-    const setDetails = await Sets.byCode(setCode);
-    this.logger.debug(`Getting ${setCode} cards from Scryfall API`);
-    const setCards = await setDetails.getCards();
-    this.logger.debug(`Formatting ${setCode} data to be saved in database`);
-    const set = SetMapper.format(setDetails);
+    this.logger.log(`Saving ${message.setCode} in database`);
+    await this.createSetDataService.execute(message.setCode);
 
-    const cards = setCards
-      .map((card) => CardMapper.format(card))
-      .map((card) => {
-        card.faces.forEach((face) => {
-          face.setId = set.id;
-        });
-        return {
-          ...card,
-          setId: set.id,
-        };
-      });
+    // const { setCode } = message;
+    // this.logger.log(`Start processing set ${setCode}`);
+    // this.logger.log(`Getting ${setCode} details from Scryfall API`);
+    // const setDetails = await Sets.byCode(setCode);
+    // this.logger.log(`Getting ${setCode} cards from Scryfall API`);
+    // const setCards = await setDetails.getCards();
+    // this.logger.log(`Formatting ${setCode} data to be saved in database`);
+    // const set = SetMapper.format(setDetails);
 
-    const newSet = { ...set, cards };
-    this.logger.debug(`Parsing ${setCode} data to responsible service`);
-    await this.createNewSetAndCards.execute(newSet);
+    // const cards = setCards
+    //   .map((card) => CardMapper.format(card))
+    //   .map((card) => {
+    //     card.faces.forEach((face) => {
+    //       face.setId = set.id;
+    //     });
+    //     return {
+    //       ...card,
+    //       setId: set.id,
+    //     };
+    //   });
+
+    // const newSet = { ...set, cards };
+    // this.logger.log(`Parsing ${setCode} data to responsible service`);
+    // await this.createNewSetAndCards.execute(newSet);
   }
 }

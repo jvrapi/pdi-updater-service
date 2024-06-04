@@ -15,6 +15,7 @@ import {
   Format,
   Rarity,
   Set,
+  SetData,
   Version,
 } from '../database/typeorm/entities';
 import {
@@ -24,6 +25,7 @@ import {
   VersionsRepository,
   RaritiesRepository,
   FormatsRepository,
+  SetsDataRepository,
 } from '~/app/repositories';
 import {
   TypeOrmCardsRepository,
@@ -33,6 +35,7 @@ import {
   TypeOrmRaritiesRepository,
   TypeOrmFormatsRepository,
   TypeOrmTransactionRepository,
+  TypeOrmSetsDataRepository,
 } from '../database/typeorm/repositories';
 import { TransactionRepository } from '~/app/repositories/transaction.repository';
 
@@ -55,6 +58,7 @@ import { TransactionRepository } from '~/app/repositories/transaction.repository
       Version,
       Rarity,
       Format,
+      SetData,
     ]),
   ],
   providers: [
@@ -87,6 +91,10 @@ import { TransactionRepository } from '~/app/repositories/transaction.repository
       provide: TransactionRepository,
       useClass: TypeOrmTransactionRepository,
     },
+    {
+      provide: SetsDataRepository,
+      useClass: TypeOrmSetsDataRepository,
+    },
   ],
   exports: [
     CardsRepository,
@@ -96,6 +104,7 @@ import { TransactionRepository } from '~/app/repositories/transaction.repository
     RaritiesRepository,
     FormatsRepository,
     TransactionRepository,
+    SetsDataRepository,
   ],
 })
 export class DatabaseModule {}

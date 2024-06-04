@@ -8,4 +8,5 @@ export * from './color.entity';
 export * from './format.entity';
 export * from './rarity.entity';
 export * from './set.entity';
+export * from './set-data.entity';
 export * from './version.entity';

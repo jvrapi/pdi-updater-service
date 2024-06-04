@@ -33,7 +33,6 @@ export class CreateNewSetAndCardsService {
 
   constructor(
     private readonly setsRepository: SetsRepository,
-    private readonly cardsRepository: CardsRepository,
     private readonly colorsRepository: ColorsRepository,
     private readonly versionsRepository: VersionsRepository,
     private readonly raritiesRepository: RaritiesRepository,
@@ -45,14 +44,14 @@ export class CreateNewSetAndCardsService {
     try {
       const setId = `${data.code}: ${data.id}`;
 
-      this.logger.debug(`Processing set ${setId}`);
+      this.logger.log(`Processing set ${setId}`);
 
       const setAlreadyExists = await this.setsRepository.getById(data.id);
       if (setAlreadyExists) {
         this.logger.warn(`Set ${setId} already exists`);
         return;
       }
-      this.logger.debug(
+      this.logger.log(
         `Creating set ${setId} and ${data.cards.length} new cards`,
       );
 
@@ -78,7 +77,8 @@ export class CreateNewSetAndCardsService {
       }
 
       const cards: CreateSetCardsParams[] = [];
-      this.logger.debug(`Preparing cards of ${setId} to be created`);
+
+      this.logger.log(`Preparing cards of ${setId} to be created`);
       // todo: Inserir cores, raridade, versões e formatos
       data.cards.forEach((card) => {
         const cardColors = card.colors.reduce<CreateCardColorsParams[]>(
@@ -220,7 +220,7 @@ export class CreateNewSetAndCardsService {
         cards,
       });
 
-      this.logger.debug(`set ${setId} created successfully!`);
+      this.logger.log(`set ${setId} created successfully!`);
     } catch (error) {
       this.logger.error(error);
       throw error;

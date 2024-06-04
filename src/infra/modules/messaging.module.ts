@@ -18,7 +18,7 @@ import { EnvService } from '~/app/services/env';
         },
         channels: {
           createSets: {
-            prefetchCount: 2,
+            prefetchCount: 1,
           },
         },
       }),
