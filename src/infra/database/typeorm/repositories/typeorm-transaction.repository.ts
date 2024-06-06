@@ -1,5 +1,5 @@
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { DataSource, IsNull } from 'typeorm';
 import { TransactionRepository } from '~/app/repositories/transaction.repository';
 import { CreateSetAndCardsParams } from '~/types';
 import {
@@ -10,6 +10,7 @@ import {
   CardRarity,
   CardVersion,
   Set,
+  SetData,
 } from '../entities';
 
 export class TypeOrmTransactionRepository implements TransactionRepository {
@@ -35,9 +36,7 @@ export class TypeOrmTransactionRepository implements TransactionRepository {
       const cardRarityRepository =
         queryRunner.manager.getRepository(CardRarity);
 
-      await setRepository.insert(params.set);
-
-      await cardsRepository.insert(params.cards);
+      const setDataRepository = queryRunner.manager.getRepository(SetData);
 
       const cardsColors = params.cards
         .map((card) => card.cardColors)
@@ -66,15 +65,39 @@ export class TypeOrmTransactionRepository implements TransactionRepository {
         .flat()
         .filter((card) => card);
 
-      await cardColorRepository.insert(cardsColors);
+      const saveOptions = {
+        reload: false,
+        chunk: 100,
+      };
 
-      await cardRarityRepository.insert(cardsRarities);
+      await setRepository.insert(params.set);
 
-      await cardVersionRepository.insert(cardsVersions);
+      await cardsRepository.save(
+        params.cards.map((card) => {
+          delete card.cardColors;
+          delete card.cardFormats;
+          delete card.cardRarity;
+          delete card.cardVersions;
+          delete card.faces;
+          return card;
+        }),
+        saveOptions,
+      );
 
-      await cardFormatRepository.insert(cardsFormats);
+      await cardColorRepository.save(cardsColors, saveOptions);
 
-      await cardFaceRepository.insert(cardFaces);
+      await cardRarityRepository.save(cardsRarities, saveOptions);
+
+      await cardVersionRepository.save(cardsVersions, saveOptions);
+
+      await cardFormatRepository.save(cardsFormats, saveOptions);
+
+      await cardFaceRepository.save(cardFaces, saveOptions);
+
+      await setDataRepository.update(
+        { setCode: params.set.code, processedAt: IsNull() },
+        { processedAt: new Date() },
+      );
 
       await queryRunner.commitTransaction();
     } catch (error) {

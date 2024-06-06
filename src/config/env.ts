@@ -19,6 +19,15 @@ const envSchema = z.object({
   RABBITMQ_URL: z.string({
     required_error: 'RABBITMQ_URL is required',
   }),
+  REDIS_PASSWORD: z.string({
+    required_error: 'REDIS_PASSWORD is required',
+  }),
+  REDIS_PORT: z.string({
+    required_error: 'REDIS_PORT is required',
+  }),
+  REDIS_HOST: z.string({
+    required_error: 'REDIS_HOST is required',
+  }),
 });
 
 export type Env = z.infer<typeof envSchema>;

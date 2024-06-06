@@ -18,9 +18,9 @@ export class TypeOrmSetsRepository implements SetsRepository {
     return sets.map(SetsMapper.toDomain);
   }
 
-  async getById(id: string): Promise<Set> {
+  async getByCode(code: string): Promise<Set> {
     const set = await this.setRepository.findOne({
-      where: { id },
+      where: { code },
     });
 
     return set ? SetsMapper.toDomain(set) : null;

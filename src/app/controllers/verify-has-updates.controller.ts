@@ -12,9 +12,9 @@ export class VerifyHasUpdatesController {
   private logger = new Logger(VerifyHasUpdatesController.name);
 
   constructor(
+    private readonly amqpConnection: AmqpConnection,
     private readonly getAllSetsRegisteredService: GetAllSetsRegisteredService,
     private readonly getUncreatedSetCodesService: GetUncreatedSetCodesService,
-    private amqpConnection: AmqpConnection,
   ) {}
 
   @RabbitSubscribe(

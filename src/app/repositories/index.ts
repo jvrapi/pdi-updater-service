@@ -6,3 +6,4 @@ export * from './sets.repository';
 export * from './sets-data.repository';
 export * from './versions.repository';
 export * from './transaction.repository';
+export * from './scryfall.repository';

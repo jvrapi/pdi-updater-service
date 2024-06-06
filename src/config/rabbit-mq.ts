@@ -2,7 +2,11 @@ import { RabbitHandlerConfig } from '@golevelup/nestjs-rabbitmq';
 import { Logger } from '@nestjs/common';
 import { Channel, ConsumeMessage } from 'amqplib';
 
-type QueueName = 'createSets' | 'deadLetter' | 'verifyHasUpdates';
+type QueueName =
+  | 'createSets'
+  | 'deadLetter'
+  | 'verifyHasUpdates'
+  | 'processSetData';
 
 interface QueueConfigParams {
   name: string;
@@ -56,6 +60,11 @@ export class RabbitMQConfig {
       exchange: this.defaultExchange,
       name: 'verify-has-updates',
       routingKey: 'vhu',
+    },
+    processSetData: {
+      exchange: this.defaultExchange,
+      name: 'process-set-data',
+      routingKey: 'psd',
     },
   };
 

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Scope } from '@nestjs/common';
 import { Version } from '~/app/entities/version';
 
 import { Color } from '~/app/entities/color';
@@ -9,17 +9,16 @@ import {
   CreateCardColorsParams,
   CreateCardVersionParams,
   CreateCardFormatParams,
-  NewSetProps,
 } from '~/types';
 
 import {
   SetsRepository,
-  CardsRepository,
   ColorsRepository,
   VersionsRepository,
   RaritiesRepository,
   FormatsRepository,
   TransactionRepository,
+  ScryfallRepository,
 } from '~/app/repositories';
 
 @Injectable()
@@ -32,6 +31,7 @@ export class CreateNewSetAndCardsService {
   private _versions: Version[] = [];
 
   constructor(
+    private readonly scryfallRepository: ScryfallRepository,
     private readonly setsRepository: SetsRepository,
     private readonly colorsRepository: ColorsRepository,
     private readonly versionsRepository: VersionsRepository,
@@ -40,17 +40,22 @@ export class CreateNewSetAndCardsService {
     private readonly transactionRepository: TransactionRepository,
   ) {}
 
-  async execute(data: NewSetProps) {
+  async execute(setCode: string) {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await this.scryfallRepository.getSetDetails(setCode);
+
       const setId = `${data.code}: ${data.id}`;
 
       this.logger.log(`Processing set ${setId}`);
 
-      const setAlreadyExists = await this.setsRepository.getById(data.id);
+      const setAlreadyExists = await this.setsRepository.getByCode(data.id);
+
       if (setAlreadyExists) {
         this.logger.warn(`Set ${setId} already exists`);
         return;
       }
+
       this.logger.log(
         `Creating set ${setId} and ${data.cards.length} new cards`,
       );
@@ -79,7 +84,7 @@ export class CreateNewSetAndCardsService {
       const cards: CreateSetCardsParams[] = [];
 
       this.logger.log(`Preparing cards of ${setId} to be created`);
-      // todo: Inserir cores, raridade, versões e formatos
+
       data.cards.forEach((card) => {
         const cardColors = card.colors.reduce<CreateCardColorsParams[]>(
           (acc, curr) => {
