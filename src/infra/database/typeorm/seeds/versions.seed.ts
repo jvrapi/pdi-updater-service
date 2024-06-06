@@ -1,26 +1,26 @@
-import { randomUUID } from 'crypto';
 import { dataSource } from '../config/migration-config';
+import { uuidv7 } from 'uuidv7';
 
 async function seedVersionsTable() {
   const values = [
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'oversized',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'foil',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'nonFoil',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'promo',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'textLess',
     },
   ];

@@ -1,5 +1,5 @@
+import { uuidv7 } from 'uuidv7';
 import { dataSource } from '../config/migration-config';
-import { randomUUID } from 'crypto';
 
 async function seedColorsTable() {
   try {
@@ -10,11 +10,11 @@ async function seedColorsTable() {
       .insert()
       .into('colors', ['id', 'name', 'color'])
       .values([
-        { id: randomUUID(), name: 'White', color: 'W' },
-        { id: randomUUID(), name: 'Blue', color: 'U' },
-        { id: randomUUID(), name: 'Black', color: 'B' },
-        { id: randomUUID(), name: 'Red', color: 'R' },
-        { id: randomUUID(), name: 'Green', color: 'G' },
+        { id: uuidv7(), name: 'White', color: 'W' },
+        { id: uuidv7(), name: 'Blue', color: 'U' },
+        { id: uuidv7(), name: 'Black', color: 'B' },
+        { id: uuidv7(), name: 'Red', color: 'R' },
+        { id: uuidv7(), name: 'Green', color: 'G' },
       ])
       .execute();
     console.log('Colors table seeded');

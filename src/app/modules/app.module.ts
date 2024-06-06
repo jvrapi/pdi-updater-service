@@ -18,7 +18,6 @@ import {
 import {
   DatabaseModule,
   MessagingModule,
-  QueueModule,
   ScryfallModule,
 } from '~/infra/modules';
 import {
@@ -26,7 +25,6 @@ import {
   GetAllSetsRegisteredService,
   CreateNewSetAndCardsService,
 } from '../services/sets';
-import { ProcessSetDataJob } from '../jobs';
 
 @Module({
   imports: [
@@ -36,7 +34,6 @@ import { ProcessSetDataJob } from '../jobs';
     DatabaseModule,
     ScryfallModule,
     MessagingModule,
-    QueueModule,
   ],
   providers: [
     GetUncreatedSetCodesService,
@@ -45,7 +42,6 @@ import { ProcessSetDataJob } from '../jobs';
     CreateNewSetAndCardsService,
     CreateSetDataService,
     ListSetsDataUnprocessedService,
-    ProcessSetDataJob,
   ],
   controllers: [
     CreateSetsController,

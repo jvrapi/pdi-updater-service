@@ -1,94 +1,94 @@
-import { randomUUID } from 'crypto';
+import { uuidv7 } from 'uuidv7';
 import { dataSource } from '../config/migration-config';
 
 async function seedFormatsTable() {
   const values = [
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'standard',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'future',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'historic',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'timeless',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'gladiator',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'pioneer',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'explorer',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'modern',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'legacy',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'pauper',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'vintage',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'penny',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'commander',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'oathbreaker',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'standardbrawl',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'brawl',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'alchemy',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'paupercommander',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'duel',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'oldschool',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'premodern',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'predh',
     },
   ];

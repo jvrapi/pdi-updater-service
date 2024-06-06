@@ -1,27 +1,31 @@
-import { randomUUID } from 'crypto';
+import { uuidv7 } from 'uuidv7';
 import { dataSource } from '../config/migration-config';
 
 async function seedRaritiesTable() {
   const values = [
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'common',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'uncommon',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'rare',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'mythic',
     },
     {
-      id: randomUUID(),
+      id: uuidv7(),
       name: 'special',
+    },
+    {
+      id: uuidv7(),
+      name: 'bonus',
     },
   ];
 
